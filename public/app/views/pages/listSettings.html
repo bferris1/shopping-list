@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h1>List Settings</h1>
+        <form>
+            <div class="form-group">
+                <label for="listName">List Title:</label>
+                <input type="text" class="form-control" id="listName" ng-model-options="{debounce:750}" ng-change="settings.updateListName()" ng-model = "settings.list.name"><span ng-if="settings.nameUpdatedAlertVisible" class="text-success">Name Updated!</span>
+            </div>
+        </form>
+        <div class="btn-group btn-group-justified">
+            <label class="btn btn-default" ng-model="settings.selected" btn-radio="'category'" uncheckable>Category Settings</label>
+            <label class="btn btn-default" ng-model="settings.selected" btn-radio="'sharing'" uncheckable>Sharing Settings</label>
+        </div>
+    </div>
+</div>
+<div id="categorySettings" collapse="settings.selected!=='category'">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <label>Category order to use for this list:</label>
+            <div class="input-group">
+                <select class="form-control" ng-model="settings.selectedCategorySortOrder" ng-change="settings.selectSortOrder()" ng-options="sortOrder.name for sortOrder in settings.sortOrders">
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" ng-click="settings.addSortOrder()"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+                </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" ng-click="settings.deleteSortOrder()"><span class="glyphicon glyphicon-minus-sign"></span> Delete</button>
+                </span>
+                <!--<span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="settings.arrangeCollapsed = !settings.arrangeCollapsed">Edit Category Order</button>
+                </span>-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div collapse="settings.arrangeCollapsed">
+                <br><br><br>
+                <div class="form-group">
+                    <label for="sortOrderName">Name</label>
+                    <input id="sortOrderName" type="text" class="form-control" placeholder="Sort Order Name" ng-model-options="{debounce:500}" ng-change="settings.renameSortOrder()" ng-model="settings.selectedCategorySortOrder.name">
+                </div>
+                <form ng-submit="settings.addCategory()">
+                    <div class="form-group">
+                        <label for="addCategoryName">Add Category:</label>
+                        <input class="form-control" ng-model="settings.categoryToAdd" placeholder="Category Name" id="addCategoryName">
+                    </div>
+                </form>
+                <p>Drag to rearrange:</p>
+                <ul dnd-list="settings.categories">
+                    <li ng-repeat="category in settings.categories"
+                        dnd-draggable="category"
+                        dnd-moved="settings.movedCallback($index)"
+                        dnd-effect-allowed="move"
+                        dnd-selected="settings.selectedCategory = category"
+                        ng-class="{'selected': settings.selectedCategory === category}"
+                            >
+                        {{category.name}}
+                        <button class="btn btn-sm btn-danger pull-right" ng-click="settings.deleteCategory($index)">Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div><!--category settings container div -->
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div collapse="settings.selected !== 'sharing'">
+            <br>
+            <div class="alert alert-success" ng-if="settings.sharingSuccessAlertVisible">{{settings.sharingSuccessAlertText}}</div>
+            <div class="alert alert-danger" ng-if="settings.sharingErrorAlertVisible">{{settings.sharingErrorAlertText}}</div>
+            <form ng-submit="settings.addShare()">
+                <div class="form-group">
+                    <label for="sharingEmail">Enter email address of person to share the list with:</label>
+                    <input id="sharingEmail" type="email" ng-model="settings.sharingEmailAddress" class="form-control">
+                </div>
+            </form>
+            <p>Currently Shared With:</p>
+            <p ng-repeat="person in settings.list.sharedWith">{{person.name}} <a href="#" class="text-danger">Remove</a> </p>
+        </div>
+    </div>
+</div>
+
+

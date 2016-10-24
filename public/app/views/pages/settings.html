@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h1>Account Settings</h1>
+        <div class="alert alert-danger" ng-if="settings.error">{{settings.error}}</div>
+        <div class="alert alert-success" ng-if="settings.success">{{settings.success}}</div>
+        <form ng-submit="settings.updateUser()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input id="firstName" type="text" class="form-control" ng-model="settings.user.firstName">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" ng-model="settings.user.lastName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="emailAddress">Email Address</label>
+                        <input type="email" class="form-control" id="emailAddress" ng-model="settings.user.email">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" ng-model="settings.user.password">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="submit" class="center-block btn btn-default btn-lg">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

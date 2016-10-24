@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-sm-3">
+        <h3>Lists:</h3>
+        <div class="row" ng-repeat="(index, list) in lists.all">
+            <div class="col-xs-8">
+                <a href="" ng-click="lists.selectList(index, list)">{{list.name}}<span ng-if="list.shared"> - shared</span></a>
+            </div>
+            <div class="col-xs-2" >
+                <a ng-if="main.user._id==list.owner" class="pull-right btn btn-primary btn-sm" href="lists/{{list._id}}/settings"><span class="glyphicon glyphicon-cog"></span></a>
+            </div>
+            <div class="col-xs-2">
+                <button ng-if="main.user._id==list.owner" class="pull-right btn btn-danger btn-sm" ng-click="lists.delete(list._id)"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <br><br>
+        </div>
+        <form ng-submit="lists.addList()">
+            <input type="text" class="form-control" ng-model="lists.newListName" placeholder="Add List">
+        </form>
+    </div>
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>{{lists.currentList.name}}</h3>
+                <form ng-if="lists.currentList!=null" ng-submit="lists.addItem()">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label class="sr-only">Add Item:</label>
+                            <input class="form-control" typeahead="item as item.name for item in lists.autocomplete | filter:{name:$viewValue}| limitTo:8" typeahead-focus-first="false" ng-model="lists.toAdd" placeholder="Add Item" type="text" autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+                <h4 ng-if = "lists.currentList.items.length === 0">No Items</h4>
+            </div>
+            <!--<div class="col-sm-4">
+                <br><br>
+                <button class="btn btn-default pull-right" ng-click="'lists.hideCompleted = !lists.hideCompleted'">Toggle Completed Item Visibility</button>
+            </div>-->
+        </div>
+        <div class="row" ng-repeat ="item in lists.currentList.items | orderBy:[lists.getSortIndex,'name']" ng-hide="item.completed && lists.hideCompleted">
+            <div class="col-xs-5">
+                <div class="checkbox" >
+                    <label>
+                        <input type="checkbox" ng-model="item.completed" ng-change="lists.toggleCompletion(item)"> {{item.name}}
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <!--suppress HtmlFormInputWithoutLabel -->
+                <select ng-change = "lists.updateCategory(item)" ng-model = "item.category" ng-options = "category for category in lists.currentList.selectedCategorySortOrder.order |orderBy:category" class="form-control">
+                </select>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-sm btn-danger" ng-click="lists.removeItem(item._id)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

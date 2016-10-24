@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--suppress HtmlUnknownTarget -->
+<html>
+<head lang="en">
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Shopping List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script src="js/angular-drag-and-drop-lists.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/services/authService.js"></script>
+    <script src="app/services/listService.js"></script>
+    <script src="app/services/settingsService.js"></script>
+    <script src="app/controllers/mainCtrl.js"></script>
+    <script src="app/controllers/listCtrl.js"></script>
+    <script src="app/controllers/settingsCtrl.js"></script>
+    <script src="app/controllers/listSettingsCtrl.js"></script>
+</head>
+<body ng-app="ShoppingList" ng-controller="mainController as main">
+<section class="container">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Shopping List</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ng-if="!main.loggedIn" href="/login">Login</a> </li>
+            <li ng-if="main.loggedIn"><a href="/settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a> </li>
+            <li><a href="#" ng-if="main.loggedIn" ng-click="main.doLogout()">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+</section>
+<div class="container">
+    <ng-view></ng-view>
+</div>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
